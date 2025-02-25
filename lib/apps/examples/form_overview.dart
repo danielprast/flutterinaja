@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterinaja/apps/shared/route_stack_manager.dart';
 
 class FormOverview extends StatefulWidget {
   const FormOverview({super.key});
@@ -9,7 +10,13 @@ class FormOverview extends StatefulWidget {
 
 class _FormOverviewState extends State<FormOverview> implements FormOverviewRoute {
   //
-  int _stackCount = 1;
+  final RouteStackManager routeStackManager = RouteStackManager();
+
+  @override
+  void initState() {
+    routeStackManager.push(RouteItem.newInstance());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,36 +26,35 @@ class _FormOverviewState extends State<FormOverview> implements FormOverviewRout
   //region :: FormOverviewRoute
   @override
   void goingBack() {
-    if (_stackCount == 1) {
+    if (routeStackManager.count == 1) {
       finishFlow();
       return;
     }
-    _stackCount -= 1;
+    routeStackManager.pop();
     Navigator.of(context).pop();
   }
 
   @override
   void backToRoot() {
-    if (_stackCount == 1) {
-      return;
-    }
-    final popCount = _stackCount - 1;
-    for (var i = 0; i < popCount; i++) {
-      Navigator.of(context).pop();
-      _stackCount -= 1;
-    }
+    routeStackManager.backToFirstRoute(
+      onPoppedRoute: (_) {
+        Navigator.of(context).pop();
+      },
+    );
   }
 
   @override
   void finishFlow() {
-    for (var i = 0; i < _stackCount; i++) {
-      Navigator.of(context).pop();
-    }
+    routeStackManager.clearRoutes(
+      onPoppedRoute: (_) {
+        Navigator.of(context).pop();
+      },
+    );
   }
 
   @override
   void presentFormTwo() {
-    _stackCount += 1;
+    routeStackManager.push(RouteItem.newInstance());
     Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => FormOverviewSecond(route: this)),
     );
@@ -56,7 +62,22 @@ class _FormOverviewState extends State<FormOverview> implements FormOverviewRout
 
   @override
   void presentFormThree() {
-    _stackCount += 1;
+    routeStackManager.push(RouteItem.newInstance());
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => FormOverviewThird(route: this)),
+    );
+  }
+
+  @override
+  void jumpToFormThreeFromRoot() {
+    routeStackManager
+      ..push(RouteItem.newInstance())
+      ..push(RouteItem.newInstance());
+
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => FormOverviewSecond(route: this)),
+    );
+
     Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => FormOverviewThird(route: this)),
     );
@@ -206,5 +227,7 @@ abstract class FormOverviewRoute extends BasicRoute {
   void presentFormTwo();
 
   void presentFormThree();
+
+  void jumpToFormThreeFromRoot();
 }
 //endregion
