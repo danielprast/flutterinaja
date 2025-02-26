@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterinaja/apps/examples/form_page.dart';
+import 'package:flutterinaja/apps/examples/text_input_control_demo.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +19,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const RoostFormPage(),
+      //home: const RoostFormPage(),
+      home: const TextInputControlDemo(),
     );
   }
 }
