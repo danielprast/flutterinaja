@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutterinaja/apps/examples/form_page.dart';
 import 'package:flutterinaja/apps/examples/text_input_control_demo.dart';
+import 'package:flutterinaja/apps/localization/localin_aja.dart';
 
 void main() {
-  runApp(const MyApp());
+  //runApp(const MyApp());
+  runApp(const LocalizationApp());
 }
 
 class MyApp extends StatelessWidget {
