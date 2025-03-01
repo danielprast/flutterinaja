@@ -40,47 +40,71 @@ class LocalizeWidget extends StatefulWidget {
 class _LocalizeWidgetState extends State<LocalizeWidget> {
   //
   String localeId = 'en';
+  bool useSystemLocale = false;
 
   @override
   Widget build(BuildContext context) {
+    if (useSystemLocale) {
+      return _LocalePage(context);
+    }
     return Localizations.override(
       context: context,
       locale: Locale(localeId),
       child: Builder(
         builder: (ctx) {
-          final localization = AppLocalizations.of(ctx)!;
-          return Scaffold(
-            appBar: AppBar(
-              title: Text(localization.flutterinaja_hello),
-            ),
-            body: SafeArea(
-              child: Column(
-                children: [
-                  Spacer(),
-                  Row(
-                    children: [
-                      Spacer(),
-                      ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            if (localeId == 'en') {
-                              localeId = 'id';
-                            } else {
-                              localeId = 'en';
-                            }
-                          });
-                        },
-                        child: Text('${localization.toggle_it}!'),
-                      ),
-                      Spacer(),
-                    ],
-                  ),
-                  Spacer(),
-                ],
-              ),
-            ),
-          );
+          return _LocalePage(ctx);
         },
+      ),
+    );
+  }
+
+  Widget _LocalePage(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(localization.flutterinaja_hello),
+      ),
+      body: SafeArea(
+        child: Column(
+          spacing: 16,
+          children: [
+            Spacer(),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  useSystemLocale = true;
+                });
+              },
+              child: const Text('System Locale'),
+            ),
+            Row(
+              spacing: 16,
+              children: [
+                Spacer(),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      useSystemLocale = false;
+                      localeId = 'id';
+                    });
+                  },
+                  child: const Text('Bahasa'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      useSystemLocale = false;
+                      localeId = 'en';
+                    });
+                  },
+                  child: const Text('English'),
+                ),
+                Spacer(),
+              ],
+            ),
+            Spacer(),
+          ],
+        ),
       ),
     );
   }
