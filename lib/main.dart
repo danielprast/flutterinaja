@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutterinaja/apps/examples/form_page.dart';
-import 'package:flutterinaja/apps/examples/text_input_control_demo.dart';
-import 'package:flutterinaja/apps/localization/localin_aja.dart';
+import 'package:flutterinaja/apps/examples/examples_widget.dart';
 
 void main() {
   //runApp(const MyApp());
-  runApp(const LocalizationApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  //
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -22,7 +20,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       //home: const RoostFormPage(),
-      home: const TextInputControlDemo(),
+      //home: const TextInputControlDemo(),
+      home: const BottomNavBarDemo(),
     );
   }
 }
